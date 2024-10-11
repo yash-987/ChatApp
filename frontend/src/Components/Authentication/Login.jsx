@@ -48,15 +48,18 @@ const Login = () => {
 			const config = {
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization:`Bearer ${user.token}`
 				}
 			}
+			console.log(inputs.email)
+			console.log(inputs.password)
 			const { data } = await axios.post('/api/user/login', {
 				email: inputs.email,
 				password: inputs.password
 			},
 				config
 			)
-			console.log(data)
+			
 			toast({
 				title: 'Login Success',
 				description: 'You have been logged in successfully',

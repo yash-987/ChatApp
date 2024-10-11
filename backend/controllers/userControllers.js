@@ -24,19 +24,16 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 		password,
 		pic,
 	});
-	
 
-	
 	if (user) {
 		res.status(201).json({
 			_id: user._id,
 			name: user.name,
 			email: user.email,
-			isAdmin:user.isAdmin,
+			isAdmin: user.isAdmin,
 			pic: user.pic,
 			token: generateToken(user._id),
 		});
-		
 	} else {
 		res.status(400);
 		throw new Error('User not created');
@@ -47,22 +44,28 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 const authUser = expressAsyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 	
+
 	if (!email || !password)
 		return res.status(401).json({ msg: 'Please fill all the fields' });
-	
-	
-	const user = await User.findOne({ email });
 
+	console.log(email)
+
+	const user = await User.findOne({email})
+
+	console.log(user)
+	
 	if (user && (await user.matchPassword(password))) {
+		console.log(user);
 		res.json({
 			_id: user._id,
 			name: user.name,
 			email: user.email,
-			
+
 			password: user.password,
 			token: generateToken(user._id),
 		});
 	} else {
+		
 		res.status(401).json({ msg: 'Login failed' });
 	}
 });
@@ -70,7 +73,6 @@ const authUser = expressAsyncHandler(async (req, res) => {
 //all users
 const allUsers = expressAsyncHandler(async (req, res) => {
 	const keyword = req.query.search
-		
 		? {
 				$or: [
 					{ name: { $regex: req.query.search, $options: 'i' } },
@@ -81,14 +83,13 @@ const allUsers = expressAsyncHandler(async (req, res) => {
 
 	try {
 		const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-	
+
 		if (users.length === 0) {
 			return res.status(400).json({ msg: 'No users found' });
 		}
-		res.send(users)
+		res.send(users);
 	} catch (error) {
-		res.status(400).json({ msg: "No users exists with this name" })
-		
+		res.status(400).json({ msg: 'No users exists with this name' });
 	}
 });
 module.exports = { registerUser, authUser, allUsers };
