@@ -9,7 +9,7 @@ export default function ScrollableChat() {
   const messages = useRecoilValue(MessagesAtom)
   const user = useRecoilValue(UserAtom)
   
- console.log(messages)
+
   return (
       <ScrollableFeed>
           {messages && messages.map((m, i) => (

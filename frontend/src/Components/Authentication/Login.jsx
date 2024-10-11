@@ -42,8 +42,7 @@ const Login = () => {
 			setIsLoading(false)
 			return
 		}
-		console.log(inputs.email)
-		console.log(inputs.password)
+		
 		// API call to login
 		try {
 			const config = {

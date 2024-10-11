@@ -97,6 +97,7 @@ export default function SingleChat() {
 			socket.emit('join chat', selectedChat._id);
 			setLoading(false);
 		} catch (error) {
+			console.log(error)
 			toast({
 				title: 'Error Occured',
 				description: 'Failed to fetch messages',
@@ -132,23 +133,12 @@ export default function SingleChat() {
 					config
 				);
 
-				// const response = await fetch('/api/message', {
-				// 	method: 'POST',
-				// 	headers: {
-				// 		'Content-type': 'application/json',
-				// 		Authorization: `Bearer ${user.token}`,
-				// 	},
-				// 	body: JSON.stringify({
-				// 		content: newMessage,
-				// 		chatId: selectedChat._id,
-				// 	}),
-				// });
-
-				// const data = await response.json();
+				
 
 				socket.emit('new message', data);
 				setMessages([...messages, data]);
 			} catch (error) {
+				console.log(error.message)
 				toast({
 					title: 'Error Occured',
 					description: 'cant send message',
@@ -191,7 +181,7 @@ export default function SingleChat() {
 					setNotifications([newMessageRecieved, ...notifications]);
 
 					setFetchAgain(!fetchAgain);
-					console.log(notifications);
+			
 					return;
 				}
 			} else {

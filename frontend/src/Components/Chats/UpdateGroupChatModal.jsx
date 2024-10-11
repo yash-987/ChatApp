@@ -1,13 +1,13 @@
 import { useRecoilState, useRecoilValue } from "recoil"
 import { FetchAtom, SelectedChatAtom } from "../../store/chat"
-import { Box, Button, ButtonGroup, FormControl, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, useDisclosure, useToast } from "@chakra-ui/react"
+import { Box, Button,  FormControl, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, useDisclosure, useToast } from "@chakra-ui/react"
 import { ViewIcon } from "@chakra-ui/icons"
 import { UserAtom } from "../../store/user"
 import { useState } from "react"
 import UserBadgeItem from "../UserAvatar/UserBadgeItem"
 import axios from "axios"
 import UserListItem from "../UserAvatar/UserListItem"
-
+import PropTypes from 'prop-types'
 
 export default function UpdateGroupChatModal({fetchMessages}) {
     const [fetchAgain, setFetchAgain] = useRecoilState(FetchAtom) 
@@ -248,4 +248,10 @@ export default function UpdateGroupChatModal({fetchMessages}) {
 
     </>
   )
+}
+
+
+
+UpdateGroupChatModal.propTypes = {
+    fetchMessages:PropTypes.func
 }

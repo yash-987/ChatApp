@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
 	})
 } else {
 	app.get('/', (req, res) => {
-		console.log('api is running')
+		res.send('api is running')
 	})
 }
 // -----------------------Deployment--------------------------
@@ -64,17 +64,17 @@ const io = require('socket.io')(server, {
 	}
 })
 io.on('connection', (socket) => {
-	console.log('a user connected');
+	
 
 	socket.on('setup', (userData) => {
 		socket.join(userData._id);
-		// console.log(userData._id);
+	
 		socket.emit('connected');
 	});
 
 	socket.on('join chat', (room) => {
 		socket.join(room);
-		console.log('user joined room : ', room);
+		
 	});
 
 	socket.on('typing', (room) => {
@@ -95,7 +95,7 @@ io.on('connection', (socket) => {
 	});
 
 	socket.off('setup', () => {
-		console.log('user disconnected');
+	
 		socket.leave(userData._id);
 	});
 });

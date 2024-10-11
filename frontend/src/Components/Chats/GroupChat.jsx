@@ -1,7 +1,7 @@
 import {
 	Box,
 	Button,
-	Divider,
+	
 	FormControl,
 	Input,
 	Modal,
@@ -18,7 +18,8 @@ import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ChatAtom } from '../../store/chat';
 import { UserAtom } from '../../store/user';
-import axios, { Axios } from 'axios';
+import PropTypes from 'prop-types'
+import axios from 'axios';
 import UserListItem from '../UserAvatar/UserListItem';
 import UserBadgeItem from '../UserAvatar/UserBadgeItem';
 
@@ -56,10 +57,10 @@ export const GroupChatModel = ({ children }) => {
 			// 	},
 			// });
 
-			console.log(user.token);
+	
 			// const data = await response.json();
 
-			console.log(data);
+		
 			setSearchResult(data);
 			setLoading(false);
 		} catch (error) {
@@ -97,8 +98,7 @@ export const GroupChatModel = ({ children }) => {
 	}
 
 	const handleSubmit = async () => {
-		console.log(selectedUsers)
-		if (!selectedUsers || !groupChatName) {
+				if (!selectedUsers || !groupChatName) {
 			toast({
 				title: 'warning',
 				description: 'Please fill all the fields',
@@ -113,18 +113,7 @@ export const GroupChatModel = ({ children }) => {
 
 		try {
 		
-			// const response = await fetch('/api/chats/group', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		Authorization:`Bearer ${user.token}`
-			// 	},
-			// 	body: {
-			// 		chatName: groupChatName,
-			// 		users: JSON.stringify(selectedUsers.map(u => u._id)),
-			// 	}
-			// })
-
-			// const data = await response.json()
+			
 
 			const config = {
 				headers: {
@@ -139,15 +128,15 @@ export const GroupChatModel = ({ children }) => {
 		  
 			
 			setChats([data,...chats])
-			// console.log(data)
-		    
+			
 			onClose() 
 			
 
-		} catch (error) {
+		} catch (e) {
+			console.log(e.message)
 			toast({
 				title: 'Error',
-				description: 'Failed to create group chat',
+				description: 'Failed to fetch messages',
 				status: 'error',
 				isClosable: true,
 				position: 'bottom',
@@ -225,3 +214,8 @@ export const GroupChatModel = ({ children }) => {
 		</>
 	);
 };
+
+
+GroupChatModel.propTypes = {
+	children:PropTypes.element
+}

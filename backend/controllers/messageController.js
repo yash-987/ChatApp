@@ -12,8 +12,7 @@ const sendMessage = expressAsyncHandler(async(req,res) => {
       return
     }
     
-    console.log(msg)
-    console.log(chatId)
+   
     try {
         let newMessage = await Message.create({
             sender: req.user._id,

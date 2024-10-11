@@ -17,12 +17,11 @@ import {
 	Text,
 	Tooltip,
 	useDisclosure,
-	useStatStyles,
 	useToast,
 } from '@chakra-ui/react';
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UserAtom } from '../../store/user';
 import ProfileModel from './ProfileModel';
 import { useState } from 'react';
@@ -34,12 +33,14 @@ import { NotificationAtom } from '../../store/notifications';
 import { getSender } from '../../config/ChatLogic';
 import  NotificationBadge, { Effect } from 'react-notification-badge'
 export default function SideDrawer() {
+
+
 	const navigate = useNavigate();
 	const [search, setSearch] = useState('');
 	const [searchResult, setSearchResult] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [chats, setChats] = useRecoilState(ChatAtom);
-	const [selectedChat, setSelectedChat] = useRecoilState(SelectedChatAtom);
+	const  setSelectedChat = useSetRecoilState(SelectedChatAtom);
 	const [loadingChat, setLoadingChat] = useState(false);
 	const { isOpen, onClose, onOpen } = useDisclosure();
 	const toast = useToast();
@@ -47,15 +48,17 @@ export default function SideDrawer() {
 	const [notifications,setNotifications] = useRecoilState(NotificationAtom)
 	const user = useRecoilValue(UserAtom);
 
+
+	
 	const logoutHandler = () => {
 		localStorage.removeItem('user-info');
 		navigate('/');
 	};
 
 	const handleSearch = async () => {
-		console.log('clicked');
+		
 		if (!search) {
-			console.log('nothing in search');
+			
 			return toast({
 				title: 'Please enter something in search',
 				status: 'waring',
@@ -79,7 +82,7 @@ export default function SideDrawer() {
 			setIsLoading(false);
 			setSearchResult(data);
 		} catch (error) {
-			console.log(error.message);
+
 			toast({
 				title: 'Error',
 				description: error.message,
@@ -119,7 +122,7 @@ export default function SideDrawer() {
 			const chat = await response.json()
 			
 			setChats(chat);
-			console.log('chat after api call', chats);
+			
 
 			if(!chats.find(c=>c._id===user._id)) setChats([chat,...chats])
 			

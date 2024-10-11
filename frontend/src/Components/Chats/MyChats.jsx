@@ -4,7 +4,6 @@ import { ChatAtom, FetchAtom, SelectedChatAtom } from '../../store/chat';
 import { useEffect, useState } from 'react';
 import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-// import axios from 'axios';
 import ChatLoading from './ChatLoading';
 import { getSender } from '../../config/ChatLogic';
 import { GroupChatModel } from './GroupChat';
@@ -15,10 +14,10 @@ export default function MyChats() {
 	const [loggedUser, setLoggedUser] = useState(true);
       const fetchAgain = useRecoilValue(FetchAtom)
 	const toast = useToast();
-// console.log(chats)
+
 	useEffect(() => {
 		const fetchChats = async () => {
-			// console.log('hook called of my chats');
+		
 
 			try {
 				const response = await fetch('/api/chats', {

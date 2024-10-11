@@ -36,7 +36,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 			pic: user.pic,
 			token: generateToken(user._id),
 		});
-		console.log(`User from user controller :${user}`)
+		
 	} else {
 		res.status(400);
 		throw new Error('User not created');
@@ -50,7 +50,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
 	if (!email || !password)
 		return res.status(401).json({ msg: 'Please fill all the fields' });
 	
-	console.log({email,password})
+	
 	const user = await User.findOne({ email });
 
 	if (user && (await user.matchPassword(password))) {
@@ -81,14 +81,14 @@ const allUsers = expressAsyncHandler(async (req, res) => {
 
 	try {
 		const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-		console.log(users)
+	
 		if (users.length === 0) {
 			return res.status(400).json({ msg: 'No users found' });
 		}
 		res.send(users)
 	} catch (error) {
 		res.status(400).json({ msg: "No users exists with this name" })
-		console.log(error.message)
+		
 	}
 });
 module.exports = { registerUser, authUser, allUsers };

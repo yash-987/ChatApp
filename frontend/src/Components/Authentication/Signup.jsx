@@ -32,12 +32,11 @@ function Signup() {
 	const handleShow = () => setShow(!show);
 
 	const postDetails = (pics) => {
-		console.log(pics);
+		
 		setIsLoading(true);
 
-		console.log('function working');
 		if (pics == undefined) {
-			console.log('pic undefined');
+			
 
 			return toast({
 				title: 'Please Select an Image!',
@@ -50,7 +49,7 @@ function Signup() {
 
 		if (pics.type === 'image./jpeg' || pics.type === 'image/png') {
 			const data = new FormData();
-			console.log('pic chosen');
+			
 			data.append('file', pics);
 			data.append('upload_preset', 'ChatWise');
 			data.append('cloud_name', 'dstwmymec');
@@ -60,9 +59,9 @@ function Signup() {
 			})
 				.then(async function (res) {
 					const data = await res.json();
-					console.log('data fetched');
+					
 					setInputs({...inputs,pic:data.url.toString()});
-					console.log(data.url.toString())
+					
 					setIsLoading(false);
 				})
 				.catch((err) => {
@@ -129,7 +128,7 @@ function Signup() {
 				},
 				config
 			);
-			console.log('inputs',inputs);
+		
 			
 
 			toast({
@@ -141,11 +140,11 @@ function Signup() {
 			});
 
 
-			console.log(`User from Sign up component `, data);
+			
 
 			localStorage.setItem('user-info', JSON.stringify(data));
 			setUser(data)
-			console.log(`User after updating the state in store`,data)
+			
 			
 			navigate('/chats');
 			setIsLoading(false);

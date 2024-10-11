@@ -1,7 +1,8 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+
 import { SelectedChatAtom } from '../../store/chat';
 import { Box } from '@chakra-ui/react';
 import SingleChat from './SingleChat';
+import { useRecoilValue } from 'recoil';
 
 export default function ChatBox() {
 	const selectedChat = useRecoilValue(SelectedChatAtom);
