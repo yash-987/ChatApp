@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from 'socket.io-client';
-import Lottie from 'react-lottie';
+import Lottie from 'lottie-react'
 import animations from '../animations/lottie.json';
 import { NotificationAtom } from '../../store/notifications';
 const ENDPOINT = 'http://localhost:3000';
@@ -43,14 +43,14 @@ export default function SingleChat() {
 
 	const toast = useToast();
 
-	const defaultOptions = {
-		loop: true,
-		autoplay: true,
-		animationsData: animations,
-		rendererSettings: {
-			preserveAspectRatio: 'xMidYMid slice',
-		},
-	};
+	// const defaultOptions = {
+	// 	loop: true,
+	// 	autoplay: true,
+	// 	animationsData: animations,
+	// 	rendererSettings: {
+	// 		preserveAspectRatio: 'xMidYMid slice',
+	// 	},
+	// };
 	const typingHandler = (e) => {
 		setNewMessage(e.target.value);
 
@@ -250,11 +250,17 @@ export default function SingleChat() {
 						<FormControl onKeyDown={sendMessage} isRequired mt={3}>
 							{isTyping && typing ? (
 								<Lottie
-									options={defaultOptions}
 									width={70}
-									style={
-										{ marginBottom: 15, marginLeft: 0 }
+									animationData={animations}
+									rendererSettings={{
+										preserveAspectRatio: 'xMidYMid slice'
 									}
+									}
+									style={{marginBottom:15,marginLeft:0}}
+									loop={true}
+									autoplay:true
+
+								
 								/>
 								// <div>Typing....</div>
 							) : (

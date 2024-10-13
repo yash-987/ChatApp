@@ -6,10 +6,10 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "set NODE_OPTIONS=--openssl-legacy-provider vite  build",
+		"build": " vite  build",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"start": " set NODE_OPTIONS=--openssl-legacy-provider npm run  dev"
+		"start": "  npm run  dev"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "^2.1.1",
@@ -17,9 +17,9 @@
 		"@emotion/react": "^11.13.3",
 		"@emotion/styled": "^11.13.0",
 		"framer-motion": "^11.5.6",
+		"lottie-react": "^2.4.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
-		"react-lottie": "^1.2.4",
 		"react-router-dom": "^6.26.2",
 		"react-scrollable-feed": "^2.0.2",
 		"recoil": "^0.7.7",
@@ -36,7 +36,6 @@
 		"eslint-plugin-react-hooks": "^5.1.0-rc.0",
 		"eslint-plugin-react-refresh": "^0.4.9",
 		"globals": "^15.9.0",
-		"react-notification-badge": "^1.5.1",
 		"vite": "^5.4.1"
 	}
 }
