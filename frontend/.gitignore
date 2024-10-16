@@ -11,6 +11,7 @@ node_modules
 
 *.local
 
+vite.config.js
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
