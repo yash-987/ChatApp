@@ -31,7 +31,7 @@ import UserListItem from '../UserAvatar/UserListItem';
 import { ChatAtom, SelectedChatAtom } from '../../store/chat';
 import { NotificationAtom } from '../../store/notifications';
 import { getSender } from '../../config/ChatLogic';
-import  NotificationBadge, { Effect } from 'react-notification-badge'
+import PropTypes from 'prop-types'
 export default function SideDrawer() {
 
 
@@ -168,8 +168,7 @@ export default function SideDrawer() {
 					<Menu>
 						<MenuButton p={1}>
 							<NotificationBadge
-								count={notifications.length}
-								effect = {Effect.SCALE}
+								notifications={notifications}
 							/>
 							<BellIcon fontSize={'2xl'} m={1} />
 						</MenuButton>
@@ -239,4 +238,16 @@ export default function SideDrawer() {
 			</Drawer>
 		</>
 	);
+}
+
+
+const NotificationBadge = ({notifications})=>{
+	return <span>
+	{notifications.length}
+</span>
+}
+
+
+NotificationBadge.propTypes = {
+	notifications: PropTypes.array.isRequired
 }
