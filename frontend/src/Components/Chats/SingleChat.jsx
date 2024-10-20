@@ -19,10 +19,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from 'socket.io-client';
-import Lottie from 'lottie-react'
+import Lottie from 'lottie-react';
 import animations from '../animations/lottie.json';
 import { NotificationAtom } from '../../store/notifications';
-const ENDPOINT = 'https://chatapp-5v5f.onrender.com';
+const ENDPOINT = `${window.location.origin}`
 
 let selectedChatCompare;
 let socket;
@@ -40,8 +40,9 @@ export default function SingleChat() {
 	const [isTyping, setIsTyping] = useState(false);
 
 	const [socketConneted, setSocketConnected] = useState(false);
-
+   
 	const toast = useToast();
+	console.log(window.location.origin);
 
 	// const defaultOptions = {
 	// 	loop: true,
@@ -97,7 +98,7 @@ export default function SingleChat() {
 			socket.emit('join chat', selectedChat._id);
 			setLoading(false);
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			toast({
 				title: 'Error Occured',
 				description: 'Failed to fetch messages',
@@ -133,12 +134,10 @@ export default function SingleChat() {
 					config
 				);
 
-				
-
 				socket.emit('new message', data);
 				setMessages([...messages, data]);
 			} catch (error) {
-				console.log(error.message)
+				console.log(error.message);
 				toast({
 					title: 'Error Occured',
 					description: 'cant send message',
@@ -153,14 +152,17 @@ export default function SingleChat() {
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
+		
 		socket.emit('setup', user);
 
 		socket.on('connected', () => {
 			setSocketConnected(true);
+			console.log('bakchod');
 		});
 
 		socket.on('typing', () => setIsTyping(true));
 		socket.on('stop typing', () => setIsTyping(false));
+
 	}, []);
 	useEffect(() => {
 		if (selectedChat) {
@@ -181,7 +183,7 @@ export default function SingleChat() {
 					setNotifications([newMessageRecieved, ...notifications]);
 
 					setFetchAgain(!fetchAgain);
-			
+
 					return;
 				}
 			} else {
@@ -253,17 +255,14 @@ export default function SingleChat() {
 									width={70}
 									animationData={animations}
 									rendererSettings={{
-										preserveAspectRatio: 'xMidYMid slice'
-									}
-									}
-									style={{marginBottom:15,marginLeft:0}}
+										preserveAspectRatio: 'xMidYMid slice',
+									}}
+									style={{ marginBottom: 15, marginLeft: 0 }}
 									loop={true}
 									autoplay:true
-
-								
 								/>
-								// <div>Typing....</div>
 							) : (
+								// <div>Typing....</div>
 								<></>
 							)}
 							<Input
