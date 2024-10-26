@@ -22,7 +22,7 @@ import io from 'socket.io-client';
 import Lottie from 'lottie-react';
 import animations from '../animations/lottie.json';
 import { NotificationAtom } from '../../store/notifications';
-const ENDPOINT = `https://chat-app-3s3i.vercel.app/`;
+const ENDPOINT = `${window.location.origin}`;
 
 let selectedChatCompare;
 let socket;
@@ -40,7 +40,7 @@ export default function SingleChat() {
 	const [isTyping, setIsTyping] = useState(false);
 
 	const [socketConneted, setSocketConnected] = useState(false);
-   
+
 	const toast = useToast();
 	console.log(window.location.origin);
 
@@ -152,7 +152,7 @@ export default function SingleChat() {
 
 	useEffect(() => {
 		socket = io(ENDPOINT);
-		
+
 		socket.emit('setup', user);
 
 		socket.on('connected', () => {
@@ -162,7 +162,6 @@ export default function SingleChat() {
 
 		socket.on('typing', () => setIsTyping(true));
 		socket.on('stop typing', () => setIsTyping(false));
-
 	}, []);
 	useEffect(() => {
 		if (selectedChat) {
