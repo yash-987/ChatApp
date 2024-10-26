@@ -5,55 +5,59 @@ const { query } = require('express');
 const { decodeBase64 } = require('bcryptjs');
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-	const { name, email, password, pic } = req.body;
+	if (req.method === 'POST') {
+		const { name, email, password, pic } = req.body;
 
-	if (!name || !email || !password) {
-		res.status(400);
-		throw new Error('Please Enter all the fields');
-	}
-	const userExists = await User.findOne({ email });
+		if (!name || !email || !password) {
+			res.status(400);
+			throw new Error('Please Enter all the fields');
+		}
+		const userExists = await User.findOne({ email });
 
-	if (userExists) {
-		res.status(400);
-		throw new Error('User already exists');
-	}
+		if (userExists) {
+			res.status(400);
+			throw new Error('User already exists');
+		}
 
-	const user = await User.create({
-		name,
-		email,
-		password,
-		pic,
-	});
-
-	if (user) {
-		res.status(201).json({
-			_id: user._id,
-			name: user.name,
-			email: user.email,
-			isAdmin: user.isAdmin,
-			pic: user.pic,
-			token: generateToken(user._id),
+		const user = await User.create({
+			name,
+			email,
+			password,
+			pic,
 		});
+
+		if (user) {
+			res.status(201).json({
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				isAdmin: user.isAdmin,
+				pic: user.pic,
+				token: generateToken(user._id),
+			});
+		} else {
+			res.status(400);
+			throw new Error('User not created');
+		}
 	} else {
-		res.status(400);
-		throw new Error('User not created');
+		res.setHeader('Allow', ['POST']);
+		res.status(405).end(`Method ${req.method} Not Allowed`);
 	}
 });
 
 //login
 const authUser = expressAsyncHandler(async (req, res) => {
 	const { email, password } = req.body;
-	
 
 	if (!email || !password)
 		return res.status(401).json({ msg: 'Please fill all the fields' });
 
-	console.log(email)
+	console.log(email);
 
-	const user = await User.findOne({email})
+	const user = await User.findOne({ email });
 
-	console.log(user)
-	
+	console.log(user);
+
 	if (user && (await user.matchPassword(password))) {
 		console.log(user);
 		res.json({
@@ -65,7 +69,6 @@ const authUser = expressAsyncHandler(async (req, res) => {
 			token: generateToken(user._id),
 		});
 	} else {
-		
 		res.status(401).json({ msg: 'Login failed' });
 	}
 });
