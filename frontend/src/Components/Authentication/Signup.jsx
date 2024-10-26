@@ -149,9 +149,10 @@ function Signup() {
 			navigate('/chats');
 			setIsLoading(false);
 		} catch (error) {
+			console.log(error.message)
 			toast({
-				title: error.message,
-				status: 'error',
+				title: 'Registration Failed',
+				status: error.message,
 				duration: 3000,
 				isClosable: true,
 				position: 'bottom',

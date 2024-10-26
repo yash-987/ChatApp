@@ -22,7 +22,7 @@ import io from 'socket.io-client';
 import Lottie from 'lottie-react';
 import animations from '../animations/lottie.json';
 import { NotificationAtom } from '../../store/notifications';
-const ENDPOINT = `${window.location.origin}`
+const ENDPOINT = `https://chat-app-3s3i.vercel.app/`;
 
 let selectedChatCompare;
 let socket;
