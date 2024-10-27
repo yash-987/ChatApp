@@ -5,6 +5,7 @@ const { query } = require('express');
 const { decodeBase64 } = require('bcryptjs');
 
 const registerUser = expressAsyncHandler(async (req, res) => {
+	
 	if (req.method === 'POST') {
 		const { name, email, password, pic } = req.body;
 
@@ -12,6 +13,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 			res.status(400);
 			throw new Error('Please Enter all the fields');
 		}
+		console.log(req.body)
 		const userExists = await User.findOne({ email });
 
 		if (userExists) {
@@ -36,10 +38,12 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 				token: generateToken(user._id),
 			});
 		} else {
+			console.log('error');
 			res.status(400);
 			throw new Error('User not created');
 		}
 	} else {
+		console.log('not a post request');
 		res.setHeader('Allow', ['POST']);
 		res.status(405).end(`Method ${req.method} Not Allowed`);
 	}
