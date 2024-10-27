@@ -146,7 +146,7 @@ function Signup() {
 			setUser(data)
 			
 			
-			navigate('/chats');
+			// navigate('/chats');
 			setIsLoading(false);
 		} catch (error) {
 			console.log(error.message)
