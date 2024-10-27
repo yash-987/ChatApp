@@ -22,7 +22,7 @@ import io from 'socket.io-client';
 import Lottie from 'lottie-react';
 import animations from '../animations/lottie.json';
 import { NotificationAtom } from '../../store/notifications';
-const ENDPOINT = `https://chatapp2-row1.onrender.com/`;
+const ENDPOINT = `${window.location.origin}`;
 
 let selectedChatCompare;
 let socket;
