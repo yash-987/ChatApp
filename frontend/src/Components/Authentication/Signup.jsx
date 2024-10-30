@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { UserAtom } from '../../store/user';
 function Signup() {
-	const setUser = useSetRecoilState(UserAtom)
+	const setUser = useSetRecoilState(UserAtom);
 	const navigate = useNavigate();
 	const toast = useToast();
 	const [inputs, setInputs] = useState({
@@ -23,8 +23,8 @@ function Signup() {
 		email: '',
 		password: '',
 		confirmPassword: '',
-		pic:''
-	})
+		pic: '',
+	});
 	const [show, setShow] = useState(false);
 
 	const [isloading, setIsLoading] = useState(false);
@@ -32,12 +32,9 @@ function Signup() {
 	const handleShow = () => setShow(!show);
 
 	const postDetails = (pics) => {
-		
 		setIsLoading(true);
 
 		if (pics == undefined) {
-			
-
 			return toast({
 				title: 'Please Select an Image!',
 				status: 'warning',
@@ -49,7 +46,7 @@ function Signup() {
 
 		if (pics.type === 'image./jpeg' || pics.type === 'image/png') {
 			const data = new FormData();
-			
+
 			data.append('file', pics);
 			data.append('upload_preset', 'ChatWise');
 			data.append('cloud_name', 'dstwmymec');
@@ -59,16 +56,15 @@ function Signup() {
 			})
 				.then(async function (res) {
 					const data = await res.json();
-					
-					setInputs({...inputs,pic:data.url.toString()});
-					
+
+					setInputs({ ...inputs, pic: data.url.toString() });
+
 					setIsLoading(false);
 				})
 				.catch((err) => {
 					console.error(err);
 					setIsLoading(false);
 				});
-			
 		} else {
 			toast({
 				title: 'Please Select an Image!',
@@ -89,7 +85,12 @@ function Signup() {
 	// }
 	const handleSubmit = async () => {
 		setIsLoading(true);
-		if (!inputs.name || !inputs.email || !inputs.password || !inputs.confirmPassword) {
+		if (
+			!inputs.name ||
+			!inputs.email ||
+			!inputs.password ||
+			!inputs.confirmPassword
+		) {
 			toast({
 				title: 'Please Fill in all the fields!',
 				status: 'warning',
@@ -97,13 +98,35 @@ function Signup() {
 				isClosable: true,
 				position: 'bottom',
 			});
-			
+
 			setIsLoading(false);
 			return;
 		}
 		if (inputs.password !== inputs.confirmPassword) {
 			toast({
 				title: 'Passwords do not match!',
+				status: 'warning',
+				duration: 3000,
+				isClosable: true,
+				position: 'bottom',
+			});
+			setIsLoading(false);
+			return;
+		}
+		if (!validateEmail(inputs.email)) {
+			toast({
+				title: 'Invalid Email',
+				status: 'warning',
+				duration: 3000,
+				isClosable: true,
+				position: 'bottom',
+			});
+			setIsLoading(false);
+			return;
+		}
+		if (inputs.password.length < 4) {
+			toast({
+				title: 'Minimum length of the password must be 4',
 				status: 'warning',
 				duration: 3000,
 				isClosable: true,
@@ -124,12 +147,10 @@ function Signup() {
 					name: inputs.name,
 					email: inputs.email,
 					password: inputs.password,
-					pic:inputs.pic,
+					pic: inputs.pic,
 				},
 				config
 			);
-		
-			
 
 			toast({
 				title: 'Registration Successful!',
@@ -139,17 +160,13 @@ function Signup() {
 				position: 'bottom',
 			});
 
-
-			
-
 			localStorage.setItem('user-info', JSON.stringify(data));
-			setUser(data)
-			
-			
+			setUser(data);
+
 			navigate('/chats');
 			setIsLoading(false);
 		} catch (error) {
-			console.log(error.message)
+			console.log(error.message);
 			toast({
 				title: 'Registration Failed',
 				status: error.message,
@@ -160,6 +177,12 @@ function Signup() {
 			setIsLoading(false);
 		}
 	};
+
+	const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
+	};
+
 	return (
 		<VStack spacing="5px" color={'black'}>
 			<FormControl id="first-name" isRequired color={'black'}>
@@ -175,6 +198,7 @@ function Signup() {
 			<FormControl id="email" isRequired>
 				<FormLabel>Email</FormLabel>
 				<Input
+					type="email"
 					value={inputs.email}
 					placeholder="Enter your Email"
 					onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
@@ -203,7 +227,9 @@ function Signup() {
 						type={show ? 'text' : 'password'}
 						value={inputs.confirmPassword}
 						placeholder={'Confirm password'}
-						onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
+						onChange={(e) =>
+							setInputs({ ...inputs, confirmPassword: e.target.value })
+						}
 					/>
 					<InputRightElement width={'4.5rem'}>
 						<Button h={'1.75rem'} size={'sm'} onClick={handleShow}>
@@ -216,10 +242,8 @@ function Signup() {
 			<FormControl>
 				<FormLabel>Upload Your Picture</FormLabel>
 				<Input
-					
 					type="file"
 					p={1.5}
-
 					accept="image/*"
 					onChange={(e) => postDetails(e.target.files[0])}
 				/>
