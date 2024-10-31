@@ -17,14 +17,14 @@ function HomePage() {
 				display={'flex'}
 				justifyContent="center"
 				p="3"
-			bg={'white'}
+				bg={'white'}
 				w="100%"
 				m="40px 0 15px 0"
 				borderRadius={'lg'}
 				borderWidth="1px"
 			>
 				<Text fontSize="3xl" fontFamily={'Work sans'} color={'black'}>
-					Chat-Wise
+					Talko
 				</Text>
 			</Box>
 
@@ -33,7 +33,6 @@ function HomePage() {
 				w={'100%'}
 				borderRadius={'lg'}
 				p={'4'}
-				
 				borderWidth={'1px'}
 			>
 				<Tabs variant="soft-rounded">
@@ -43,12 +42,12 @@ function HomePage() {
 					</TabList>
 					<TabPanels>
 						<TabPanel>
-              {/* Login component */}
-              {<Login/>}
+							{/* Login component */}
+							{<Login />}
 						</TabPanel>
 						<TabPanel>
-              {/* Sign up component */}
-              <Signup/>
+							{/* Sign up component */}
+							<Signup />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
