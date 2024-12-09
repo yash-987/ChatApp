@@ -121,7 +121,7 @@ const Login = () => {
 						</Button>
 					</InputRightElement>
 				</InputGroup>
-				<Link as={RouterLink} to={`/LoginHelp/user`}  color={'blue'} size={'sm'} textDecor={'none'} >
+				<Link as={RouterLink} to={`/LoginHelp`}  color={'blue'} size={'sm'} textDecor={'none'} >
 					<div>Forgot Password?</div>
 				</Link>
 			</FormControl>
