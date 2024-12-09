@@ -1,81 +1,66 @@
-
+const buffer = require('buffer');
 const express = require('express');
 const ConnectUrl = require('./config/db');
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const path = require('path');
 
-
-dotenv.config()
+dotenv.config();
 ConnectUrl();
 const app = express();
 
-
 app.use(express.json());
-
 
 app.use('/api/user', userRoutes);
 app.use('/api/chats', chatRoutes);
 app.use('/api/message', messageRoutes);
 
-
-
-
-
-
-
-
-
 // -----------------------Deployment--------------------------
-
 
 const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname1, '/frontend/dist')))
-	
-	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname1,'frontend','dist','index.html'))
-	})
+	app.use(express.static(path.join(__dirname1, '/frontend/dist')));
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname1, 'frontend', 'dist', 'index.html'));
+	});
 } else {
 	app.get('/', (req, res) => {
-		res.send('api is running')
-	})
+		res.send('api is running');
+	});
 }
 
 // -----------------------Deployment--------------------------
 
-
 app.use(notFound);
 app.use(errorHandler);
 
-
 const PORT = process.env.PORT;
 
-const server = app.listen(PORT,console.log(`Server running on PORT ${PORT}...`))
-
+const server = app.listen(
+	PORT,
+	console.log(`Server running on PORT ${PORT}...`)
+);
 
 const io = require('socket.io')(server, {
 	pingTimeOut: 60000,
 	cors: {
-		origin:'http://localhost:3000'
-	}
-})
+		origin: 'http://localhost:3000',
+	},
+});
 io.on('connection', (socket) => {
-	
-
 	socket.on('setup', (userData) => {
 		socket.join(userData._id);
-	
+
 		socket.emit('connected');
 	});
 
 	socket.on('join chat', (room) => {
 		socket.join(room);
-		
 	});
 
 	socket.on('typing', (room) => {
@@ -96,7 +81,6 @@ io.on('connection', (socket) => {
 	});
 
 	socket.off('setup', () => {
-	
 		socket.leave(userData._id);
 	});
 });

@@ -8,4 +8,9 @@ const generateToken = (id) => {
     })
 }
 
-module.exports = generateToken
+
+const decodeToken = (param) => {
+    return jwt.verify(param, jwtSecret)
+}
+
+module.exports = {generateToken,decodeToken}

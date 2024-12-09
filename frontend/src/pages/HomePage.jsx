@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import Login from '../Components/Authentication/Login';
 import Signup from '../Components/Authentication/Signup';
+import ForgetPass from '../Components/Authentication/ForgetPass';
 function HomePage() {
 	return (
 		<Container maxW={'xl'} centerContent>
@@ -29,7 +30,7 @@ function HomePage() {
 			</Box>
 
 			<Box
-				bg={'white'}
+				bg={'white'}in
 				w={'100%'}
 				borderRadius={'lg'}
 				p={'4'}
@@ -49,6 +50,7 @@ function HomePage() {
 							{/* Sign up component */}
 							<Signup />
 						</TabPanel>
+						
 					</TabPanels>
 				</Tabs>
 			</Box>

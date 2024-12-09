@@ -6,10 +6,12 @@ import {
 	InputGroup,
 	InputRightElement,
 	
+	Link,
+	
 	useToast,
 	VStack,
 } from '@chakra-ui/react';
-
+import {Link as RouterLink} from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +29,8 @@ const Login = () => {
 	const [show, setShow] = useState(false)
 	const toast = useToast()
   const handleShow = () => setShow(!show)
-  const [isloading,setIsLoading] = useState(false)
+	const [isloading, setIsLoading] = useState(false)
+	
 	const handleSubmit = async() => {
 		setIsLoading(true)
 		if (!inputs.email || !inputs.password) {
@@ -69,7 +72,7 @@ const Login = () => {
 			    position:"bottom"
 			})
 			localStorage.setItem('user-info', JSON.stringify(data))
-			setUser(data)
+			// setUser(data)
 			if (user) {
 				navigate('/chats');
 				console.log(user);
@@ -80,7 +83,7 @@ const Login = () => {
 		} catch (error) {
 			toast({
 				title: 'Error',
-				description: error.message,
+				description: `Invalid Username or Password`,
 				status: 'error',
 				duration: '2000',
 				isClosable: 'true',
@@ -102,7 +105,7 @@ const Login = () => {
 					placeholder="Enter your Email"
 				/>
 			</FormControl>
-			<FormControl id="password " isRequired>
+			<FormControl id="password " isRequired  >
 				<FormLabel>Password</FormLabel>
 				<InputGroup size={'md'}>
 					<Input
@@ -117,6 +120,9 @@ const Login = () => {
 						</Button>
 					</InputRightElement>
 				</InputGroup>
+				<Link as={RouterLink} to={`/LoginHelp/user`}  color={'blue'} size={'sm'} textDecor={'none'} >
+					<div>Forgot Password?</div>
+				</Link>
 			</FormControl>
 
 			<Button
