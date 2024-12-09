@@ -1,17 +1,14 @@
 const User = require('../models/userModel');
-const {generateToken,decodeToken} = require('../config/generateToken');
+const { generateToken, decodeToken } = require('../config/generateToken');
 const expressAsyncHandler = require('express-async-handler');
-const nodemailer = require('nodemailer')
-const dotenv = require('dotenv'
-	
-)
-dotenv.config()
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+dotenv.config();
 const { query } = require('express');
 const { decodeBase64 } = require('bcryptjs');
 const { hashPassword, matchPassword } = require('../config/hashPassword');
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-	
 	if (req.method === 'POST') {
 		const { name, email, password, pic } = req.body;
 
@@ -19,7 +16,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 			res.status(400);
 			throw new Error('Please Enter all the fields');
 		}
-		console.log(req.body)
+		console.log(req.body);
 		const userExists = await User.findOne({ email });
 
 		if (userExists) {
@@ -31,7 +28,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 		const user = await User.create({
 			name,
 			email,
-			password:hashedPassword,
+			password: hashedPassword,
 			pic,
 		});
 
@@ -70,15 +67,15 @@ const authUser = expressAsyncHandler(async (req, res) => {
 	if (!user) {
 		return res.status(403).json({
 			msg: 'Invalid email or password',
-		})
+		});
 	}
-	
+
 	const isMatchedPass = await matchPassword(password, user.password);
 
 	if (!isMatchedPass) {
 		return res.status(403).json({
 			msg: 'Wrong Password',
-		})
+		});
 	}
 
 	res.json({
@@ -86,9 +83,8 @@ const authUser = expressAsyncHandler(async (req, res) => {
 		name: user.name,
 		email: user.email,
 		password: user.password,
-		token:generateToken(user._id)
-	})
-
+		token: generateToken(user._id),
+	});
 });
 
 //all users
@@ -150,20 +146,14 @@ https://chatwise-phe4.onrender.com/LoginHelp/reset-password`}/${token}`,
 		await transporter.sendMail(receiver);
 
 		return res.status(200).json({
-			msg: `Password reset link sent successfully to email`
+			msg: `Password reset link sent successfully to email`,
 		});
-
 	} catch (error) {
-		res.status(403).send(
-			{
-				msg: 'Error sending password reset link',
-			}
-		)
+		res.status(403).send({
+			msg: 'Error sending password reset link',
+		});
 	}
-
-
-})
-
+});
 
 const resetPassword = expressAsyncHandler(async (req, res) => {
 	try {
@@ -173,7 +163,7 @@ const resetPassword = expressAsyncHandler(async (req, res) => {
 		if (!password) {
 			return res.status(403).json({
 				msg: 'Password is required',
-			})
+			});
 		}
 
 		const decode = decodeToken(token);
@@ -181,24 +171,27 @@ const resetPassword = expressAsyncHandler(async (req, res) => {
 		if (!user) {
 			return res.status(403).json({
 				msg: 'Invalid token',
-			})
-		 }
-	
+			});
+		}
+
 		const newHashPass = await hashPassword(password);
 
 		user.password = newHashPass;
-		await user.save()
-
+		await user.save();
 
 		return res.status(200).json({
 			msg: 'Password reset successfully',
-		})
-
-		
+		});
 	} catch (error) {
 		res.status(403).json({
 			msg: error.message,
-		})
+		});
 	}
-})
-module.exports = { registerUser, authUser, allUsers,forgetPassword,resetPassword };
+});
+module.exports = {
+	registerUser,
+	authUser,
+	allUsers,
+	forgetPassword,
+	resetPassword,
+};
