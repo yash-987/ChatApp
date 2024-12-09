@@ -53,13 +53,13 @@ const ForgetPass = () => {
 				console.log(data);
 			
 
-				// toast({
-				//     title: 'Success',
-				//     description: 'Password reset link sent to your email',
-				//     status: 'success',
-				//     duration: 2000,
-				//     isClosable: true,
-				// });
+				toast({
+				    title: 'Success',
+				    description: 'Password reset link sent to your email',
+				    status: 'success',
+				    duration: 2000,
+				    isClosable: true,
+				});
 				setIsLoading(false);
 				return;
 			}
