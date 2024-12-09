@@ -48,7 +48,7 @@ const ResetPass = () => {
 
 			const { data } = await axios.post(
 				`
-https://talko.onrender.com/api/user/reset-password/${token}`,
+https://chatwise-phe4.onrender.com/api/user/reset-password/${token}`,
 				{
 					password: pass,
 				},

@@ -145,7 +145,7 @@ const forgetPassword = expressAsyncHandler(async (req, res) => {
 			to: email,
 			subject: 'Request for Password Reset',
 			text: `Click on the link to generate your new password ${`
-http://localhost:5173/LoginHelp/reset-password`}/${token}`,
+https://chatwise-phe4.onrender.com/LoginHelp/reset-password`}/${token}`,
 		};
 		await transporter.sendMail(receiver);
 

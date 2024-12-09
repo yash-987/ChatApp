@@ -22,7 +22,7 @@ export default function App() {
 		<div className="App">
 			<Routes>
 				<Route path="/" Component={HomePage} />
-				<Route path={`/LoginHelp/user`} Component={ForgetPass} />
+				<Route path={`/LoginHelp`} Component={ForgetPass} />
 
 				<Route path={`/LoginHelp/reset-password/:token`} Component={ResetPass} />
 
