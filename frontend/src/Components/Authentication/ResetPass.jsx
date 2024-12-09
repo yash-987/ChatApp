@@ -1,12 +1,15 @@
 import {
 	Button,
-	Center,
+	
 	FormControl,
 	FormLabel,
 	Heading,
 	Input,
+	
 	InputGroup,
+	
 	InputRightElement,
+	
 	useToast,
 	VStack,
 } from '@chakra-ui/react';
@@ -66,6 +69,7 @@ https://talko.onrender.com/api/user/reset-password/${token}`,
 
 
 		} catch (error) {
+			console.log(error)
 			toast({
 				title: 'Error',
 				description: 'Something went wrong with your password reset',
@@ -77,6 +81,9 @@ https://talko.onrender.com/api/user/reset-password/${token}`,
             setIsLoading(false);
         }
 	};
+	const handleShow = () => {
+		setShow(!show)
+	}
 	return (
 		<VStack
 			spacing="5px"
@@ -94,23 +101,15 @@ https://talko.onrender.com/api/user/reset-password/${token}`,
 			<Heading fontSize={'2xl'}>Reset Password</Heading>
 			<FormControl id="email" isRequired>
 				<FormLabel>Enter New Password </FormLabel>
+				<InputGroup size={'md'}>
 				<Input
+				
 					onChange={(e) => {
 						setPass(e.target.value);
 					}}
 					value={pass}
-					type="password"
+					type={show?'text':'password'}
 					placeholder="Enter New Password"
-				/>
-			</FormControl>
-			{/* <FormControl id="password " isRequired>
-				<FormLabel>Password</FormLabel>
-				<InputGroup size={'md'}>
-					<Input
-						type={show ? 'text' : 'password'}
-						value={inputs.password}
-						placeholder={'Enter Your password'}
-						onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
 					/>
 					<InputRightElement width={'4.5rem'}>
 						<Button h={'1.75rem'} size={'sm'} onClick={handleShow}>
@@ -118,8 +117,8 @@ https://talko.onrender.com/api/user/reset-password/${token}`,
 						</Button>
 					</InputRightElement>
 				</InputGroup>
-				
-			</FormControl> */}
+			</FormControl>
+			
 
 			<Button
 				colorScheme="blue"

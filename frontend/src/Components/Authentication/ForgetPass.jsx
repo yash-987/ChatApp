@@ -1,12 +1,11 @@
 import {
 	Button,
-	Center,
+
 	FormControl,
 	FormLabel,
 	Heading,
 	Input,
-	InputGroup,
-	InputRightElement,
+	
 	useToast,
 	VStack,
 } from '@chakra-ui/react';
@@ -16,7 +15,7 @@ import { useState } from 'react';
 
 const ForgetPass = () => {
 	const [isloading, setIsLoading] = useState(false);
-	const [show, setShow] = useState(false);
+	
 	const toast = useToast();
 	
 	const [inputs, setInputs] = useState({
@@ -65,6 +64,7 @@ const ForgetPass = () => {
 				return;
 			}
 		} catch (error) {
+			console.log(error)
 			toast({
 				title: 'Error',
 				description: 'No account with this email',
@@ -74,9 +74,7 @@ const ForgetPass = () => {
 			});
 		}
 	};
-	const handleShow = () => {
-		setShow(!show);
-	};
+	
 	return (
 		<VStack
 			spacing="5px"

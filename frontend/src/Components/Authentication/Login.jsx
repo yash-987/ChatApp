@@ -72,7 +72,7 @@ const Login = () => {
 			    position:"bottom"
 			})
 			localStorage.setItem('user-info', JSON.stringify(data))
-			// setUser(data)
+			setUser(data)
 			if (user) {
 				navigate('/chats');
 				console.log(user);
@@ -81,6 +81,7 @@ const Login = () => {
 
 			setIsLoading(false)
 		} catch (error) {
+			console.log(error)
 			toast({
 				title: 'Error',
 				description: `Invalid Username or Password`,

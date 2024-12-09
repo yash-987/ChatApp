@@ -1,19 +1,15 @@
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes,  } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ChatPage from './pages/ChatPage';
 import './App.css';
 
 import ForgetPass from './Components/Authentication/ForgetPass';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { UserAtom } from './store/user';
 
 import ResetPass from './Components/Authentication/ResetPass';
 
 
 export default function App() {
-	const [user, setUser] = useRecoilState(UserAtom);
-  const {token} = useParams()
-	console.log(user);
+	
 	// const localStorageUser = JSON.parse(localStorage.getItem('user-info'))
 	// useEffect(() => {
 	//   if (localStorageUser) {
