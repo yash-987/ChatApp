@@ -5,13 +5,11 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
-	
 	Link,
-	
 	useToast,
 	VStack,
 } from '@chakra-ui/react';
-import {Link as RouterLink} from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,20 +17,20 @@ import { useRecoilState } from 'recoil';
 import { UserAtom } from '../../store/user';
 
 const Login = () => {
-	const [user,setUser] = useRecoilState(UserAtom)
-	const navigate = useNavigate()
+	const [user, setUser] = useRecoilState(UserAtom);
+	const navigate = useNavigate();
 	const [inputs, setInputs] = useState({
 		name: '',
 		email: '',
-		password:''
-	})
-	const [show, setShow] = useState(false)
-	const toast = useToast()
-  const handleShow = () => setShow(!show)
-	const [isloading, setIsLoading] = useState(false)
-	
-	const handleSubmit = async() => {
-		setIsLoading(true)
+		password: '',
+	});
+	const [show, setShow] = useState(false);
+	const toast = useToast();
+	const handleShow = () => setShow(!show);
+	const [isloading, setIsLoading] = useState(false);
+
+	const handleSubmit = async () => {
+		setIsLoading(true);
 		if (!inputs.email || !inputs.password) {
 			toast({
 				title: 'Error',
@@ -40,59 +38,60 @@ const Login = () => {
 				status: 'error',
 				duration: 2000,
 				isClosable: true,
-				position:"bottom"
-			})
-			setIsLoading(false)
-			return
+				position: 'bottom',
+			});
+			setIsLoading(false);
+			return;
 		}
-		
+
 		// API call to login
 		try {
 			const config = {
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization:`Bearer ${user.token}`
-				}
-			}
-			console.log(inputs.email)
-			console.log(inputs.password)
-			const { data } = await axios.post('/api/user/login', {
-				email: inputs.email,
-				password: inputs.password
-			},
+					Authorization: `Bearer ${user.token}`,
+				},
+			};
+			console.log(inputs.email);
+			console.log(inputs.password);
+			const { data } = await axios.post(
+				'/api/user/login',
+				{
+					email: inputs.email,
+					password: inputs.password,
+				},
 				config
-			)
-			
+			);
+
 			toast({
 				title: 'Login Success',
 				description: 'You have been logged in successfully',
 				status: 'success',
 				duration: 2000,
 				isClosable: 'true',
-			    position:"bottom"
-			})
-			localStorage.setItem('user-info', JSON.stringify(data))
-			setUser(data)
+				position: 'bottom',
+			});
+			localStorage.setItem('user-info', JSON.stringify(data));
+			setUser(data);
 			if (user) {
 				navigate('/chats');
 				console.log(user);
-				
 			}
 
-			setIsLoading(false)
+			setIsLoading(false);
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			toast({
 				title: 'Error',
 				description: `Invalid Username or Password`,
 				status: 'error',
 				duration: '2000',
 				isClosable: 'true',
-				position:"bottom"
-			})
-			setIsLoading(false)
+				position: 'bottom',
+			});
+			setIsLoading(false);
 		}
-  }
+	};
 	return (
 		<VStack spacing="5px" color={'black'}>
 			<FormControl id="email" isRequired>
@@ -106,7 +105,7 @@ const Login = () => {
 					placeholder="Enter your Email"
 				/>
 			</FormControl>
-			<FormControl id="password " isRequired  >
+			<FormControl id="password " isRequired>
 				<FormLabel>Password</FormLabel>
 				<InputGroup size={'md'}>
 					<Input
@@ -121,7 +120,13 @@ const Login = () => {
 						</Button>
 					</InputRightElement>
 				</InputGroup>
-				<Link as={RouterLink} to={`/LoginHelp`}  color={'blue'} size={'sm'} textDecor={'none'} >
+				<Link
+					as={RouterLink}
+					to={`/LoginHelp`}
+					color={'blue'}
+					size={'sm'}
+					textDecor={'none'}
+				>
 					<div>Forgot Password?</div>
 				</Link>
 			</FormControl>
