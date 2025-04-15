@@ -28,7 +28,7 @@ const Login = () => {
 	const toast = useToast();
 	const handleShow = () => setShow(!show);
 	const [isloading, setIsLoading] = useState(false);
-
+	const [showForgetPass, setShowForgetPass] = useState(false);
 	const handleSubmit = async () => {
 		setIsLoading(true);
 		if (!inputs.email || !inputs.password) {
@@ -89,6 +89,9 @@ const Login = () => {
 				isClosable: 'true',
 				position: 'bottom',
 			});
+			setTimeout(() => {
+				setShowForgetPass(true);
+			}, 1000/4);
 			setIsLoading(false);
 		}
 	};
@@ -120,6 +123,8 @@ const Login = () => {
 						</Button>
 					</InputRightElement>
 				</InputGroup>
+				{showForgetPass ?
+					(
 				<Link
 					as={RouterLink}
 					to={`/LoginHelp`}
@@ -129,6 +134,8 @@ const Login = () => {
 				>
 					<div>Forgot Password?</div>
 				</Link>
+				)
+				: null}
 			</FormControl>
 
 			<Button

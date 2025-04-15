@@ -114,7 +114,7 @@ const renameGroupChat = expressAsyncHandler(async (req, res) => {
 		}
 	)
 		.populate('users', '-password')
-		.populate('groupAdmin', '-password');
+		.populate('groupAdmin', '-password'); 
 
 	if (!updatedChat) {
 		return res.status(400).json({ msg: "Can't update the chat" });

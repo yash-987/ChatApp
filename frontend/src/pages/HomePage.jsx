@@ -25,7 +25,7 @@ function HomePage() {
 				borderWidth="1px"
 			>
 				<Text fontSize="3xl" fontFamily={'Work sans'} color={'black'}>
-					Talko
+					Chat-Wise
 				</Text>
 			</Box>
 
