@@ -157,7 +157,7 @@ export default function SingleChat() {
 
 		socket.on('connected', () => {
 			setSocketConnected(true);
-			console.log('bakchod');
+			
 		});
 
 		socket.on('typing', () => setIsTyping(true));

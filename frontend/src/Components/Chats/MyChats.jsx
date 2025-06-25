@@ -12,13 +12,11 @@ export default function MyChats() {
 	const [chats, setChats] = useRecoilState(ChatAtom);
 	const [selectedChat, setSelectedChat] = useRecoilState(SelectedChatAtom);
 	const [loggedUser, setLoggedUser] = useState(true);
-      const fetchAgain = useRecoilValue(FetchAtom)
+	const fetchAgain = useRecoilValue(FetchAtom);
 	const toast = useToast();
 
 	useEffect(() => {
 		const fetchChats = async () => {
-		
-
 			try {
 				const response = await fetch('/api/chats', {
 					headers: {
@@ -30,7 +28,6 @@ export default function MyChats() {
 				const chatArray = await response.json();
 
 				setChats(chatArray);
-				
 			} catch (error) {
 				toast({
 					title: 'Failed to fetch chats',
@@ -43,9 +40,9 @@ export default function MyChats() {
 			}
 		};
 		setLoggedUser(JSON.parse(localStorage.getItem('user-info')));
+
 		fetchChats();
 	}, [fetchAgain]);
-	
 
 	return (
 		<Box
@@ -68,17 +65,16 @@ export default function MyChats() {
 				w={'100%'}
 				justifyContent={'space-between'}
 			>
-        My Chats
-        <GroupChatModel>
-
-				<Button
-					display={'flex'}
-					fontSize={{ base: '17px', md: '10px', lg: '17px' }}
-					rightIcon={<AddIcon />}
-				>
-					New Group Chat
-				</Button>
-        </GroupChatModel>
+				My Chats
+				<GroupChatModel>
+					<Button
+						display={'flex'}
+						fontSize={{ base: '17px', md: '10px', lg: '17px' }}
+						rightIcon={<AddIcon />}
+					>
+						New Group Chat
+					</Button>
+				</GroupChatModel>
 			</Box>
 
 			<Box
@@ -90,46 +86,40 @@ export default function MyChats() {
 				h={'100%'}
 				borderRadius={'lg'}
 				overflowY={'hidden'}
-      >
-				{chats  ? (
-		                
-          <Stack overflowY={'scroll'}>
-						{
-						
-			chats && chats.map((c) => (
-			<Box
-			onClick={() => setSelectedChat(c)}
-			cursor={'pointer'}
-			bg={selectedChat === c ? '#38B2AC' : '#E8E8E8'}
-			key={c._id}
-			color={selectedChat === c ? 'white' : 'black'}
-			px={3}
-			py={2}
-			borderRadius={'lg'}
-			
 			>
-			<Text> 
-				{!c.isGroupChat ? (
-				getSender(loggedUser,c.users)
-				):(c.chatName)}
-			</Text>
-
+				{chats && loggedUser ? (
+					<Stack overflowY={'scroll'}>
+						{chats &&
+							chats.map((c) => (
+								<Box
+									onClick={() => setSelectedChat(c)}
+									cursor={'pointer'}
+									bg={selectedChat === c ? '#38B2AC' : '#E8E8E8'}
+									key={c._id}
+									color={selectedChat === c ? 'white' : 'black'}
+									px={3}
+									py={2}
+									borderRadius={'lg'}
+								>
+									<Text>
+										{!c.isGroupChat
+											? (() => {
+													console.log('Calling getSender with:', {
+														loggedUser,
+														chatUsers: c.users,
+														chatId: c._id,
+													});
+													return getSender(loggedUser, c.users);
+											  })()
+											: c.chatName || "Unnamed Group "}
+									</Text>
+								</Box>
+							))}
+					</Stack>
+				) : (
+					((<ChatLoading />), console.log(typeof chats))
+				)}
 			</Box>
-		)
-		)
-			}
-            
-        </Stack>
-
-         ):(
-
-					<ChatLoading/>,
-					
-		 			console.log(typeof chats)
-						
-        ) }
-      
-      </Box>
 		</Box>
 	);
 }
